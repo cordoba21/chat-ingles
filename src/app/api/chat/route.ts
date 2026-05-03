@@ -29,6 +29,8 @@ type GeminiResponse = {
   }>;
 };
 
+const RETRY_DELAYS_MS = [250, 600, 1200];
+
 function safeParseJson(text: string) {
   const cleaned = text
     .replace(/^```(json)?/i, "")
@@ -48,6 +50,8 @@ function safeParseJson(text: string) {
     return null;
   }
 }
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function POST(request: Request) {
   try {
@@ -95,6 +99,13 @@ export async function POST(request: Request) {
       }
 
       lastError = await response.text();
+
+      const shouldRetry = response.status === 429 || response.status >= 500;
+      if (!shouldRetry || attempt === 3) {
+        break;
+      }
+
+      await sleep(RETRY_DELAYS_MS[attempt - 1] ?? 600);
     }
 
     if (!data) {
