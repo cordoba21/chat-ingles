@@ -79,7 +79,7 @@ export default function Home() {
           ...prev,
           {
             role: "assistant",
-            content: "I had a connection problem. Please try again.",
+            content: "The tutor is busy right now. Please try again.",
           },
         ]),
       );

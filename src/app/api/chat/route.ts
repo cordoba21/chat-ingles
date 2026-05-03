@@ -67,35 +67,47 @@ export async function POST(request: Request) {
       parts: [{ text: message.content }],
     }));
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: `${SYSTEM_PROMPT}\nLevel: B1` }],
-          },
-          contents,
-          generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 500,
-          },
-        }),
-      },
-    );
+    let data: GeminiResponse | null = null;
+    let lastError = "";
 
-    if (!response.ok) {
-      const errorText = await response.text();
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            systemInstruction: {
+              parts: [{ text: `${SYSTEM_PROMPT}\nLevel: B1` }],
+            },
+            contents,
+            generationConfig: {
+              temperature: 0.6,
+              maxOutputTokens: 500,
+            },
+          }),
+        },
+      );
+
+      if (response.ok) {
+        data = (await response.json()) as GeminiResponse;
+        break;
+      }
+
+      lastError = await response.text();
+    }
+
+    if (!data) {
       return NextResponse.json(
-        { error: "Gemini API error", detail: errorText },
-        { status: 500 },
+        {
+          error: "Gemini API error",
+          detail: lastError || "Service busy",
+        },
+        { status: 503 },
       );
     }
 
-    const data = (await response.json()) as GeminiResponse;
-    const text =
-      data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "";
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "";
     const parsed = safeParseJson(text);
 
     if (!parsed) {
