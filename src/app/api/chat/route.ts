@@ -51,12 +51,8 @@ function safeParseJson(text: string) {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as {
-      messages?: ChatMessage[];
-      level?: string;
-    };
+    const body = (await request.json()) as { messages?: ChatMessage[] };
     const messages = Array.isArray(body.messages) ? body.messages : [];
-    const level = typeof body.level === "string" ? body.level : "B1";
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -78,7 +74,7 @@ export async function POST(request: Request) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           systemInstruction: {
-            parts: [{ text: `${SYSTEM_PROMPT}\nLevel: ${level}` }],
+            parts: [{ text: `${SYSTEM_PROMPT}\nLevel: B1` }],
           },
           contents,
           generationConfig: {

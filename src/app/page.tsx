@@ -30,7 +30,6 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [correction, setCorrection] = useState<ChatResponse | null>(null);
-  const [level, setLevel] = useState("B1");
   const listRef = useRef<HTMLDivElement | null>(null);
   const autoScrollRef = useRef(true);
 
@@ -59,7 +58,7 @@ export default function Home() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages, level }),
+        body: JSON.stringify({ messages: nextMessages }),
       });
 
       if (!response.ok) {
@@ -135,19 +134,6 @@ export default function Home() {
             <h1>English chat with smart corrections</h1>
           </div>
           <div className={styles.controls}>
-            <div className={styles.levelPicker}>
-              <label htmlFor="level">Level</label>
-              <select
-                id="level"
-                value={level}
-                onChange={(event) => setLevel(event.target.value)}
-              >
-                <option value="A2">A2</option>
-                <option value="B1">B1</option>
-                <option value="B2">B2</option>
-                <option value="C1">C1</option>
-              </select>
-            </div>
             <button
               type="button"
               className={styles.restartButton}
