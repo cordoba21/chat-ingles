@@ -15,15 +15,7 @@
 .matrixRain {
   position: absolute;
   inset: -20% 0 0 0;
-  background-image:
-    linear-gradient(transparent 0%, rgba(10, 55, 30, 0.35) 30%, transparent 60%),
-    repeating-linear-gradient(
-      180deg,
-      rgba(34, 255, 136, 0.08) 0,
-      rgba(34, 255, 136, 0.08) 1px,
-      transparent 1px,
-      transparent 4px
-    );
+  background-image: var(--theme-rain-bg);
   opacity: 0.9;
   animation: rainMove 12s linear infinite;
   filter: blur(0.2px);
@@ -34,7 +26,7 @@
   width: 520px;
   height: 520px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(34, 255, 136, 0.25), transparent 65%);
+  background: var(--theme-glow-bg);
   right: -120px;
   top: -140px;
   opacity: 0.6;
@@ -60,9 +52,9 @@
   gap: 24px;
   padding: 24px 28px;
   border-radius: 20px;
-  background: linear-gradient(140deg, rgba(5, 12, 9, 0.95), rgba(4, 10, 7, 0.85));
-  border: 1px solid var(--matrix-line);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  background: var(--theme-header-bg);
+  border: 1px solid var(--theme-header-line);
+  box-shadow: var(--theme-header-shadow);
 }
 
 .kicker {
@@ -98,7 +90,7 @@
 
 .restartButton {
   background: transparent;
-  border: 1px solid rgba(122, 255, 196, 0.4);
+  border: 1px solid var(--theme-restart-border);
   color: var(--matrix-text);
   padding: 8px 16px;
   border-radius: 999px;
@@ -115,12 +107,47 @@
   transform: translateY(-1px);
 }
 
+.themeToggle {
+  display: flex;
+  border-radius: 999px;
+  border: 1px solid var(--theme-toggle-border);
+  background: var(--theme-toggle-bg);
+  overflow: hidden;
+}
+
+.themeBtn {
+  background: transparent;
+  border: none;
+  color: var(--matrix-text-muted);
+  padding: 6px 12px;
+  font-family: var(--font-matrix-mono), "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.themeBtn:hover {
+  color: var(--matrix-text);
+}
+
+.themeBtnActive {
+  background: var(--theme-toggle-active-bg);
+  color: var(--matrix-glow);
+}
+
+.restartButton:hover {
+  border-color: var(--matrix-glow);
+  color: var(--matrix-glow);
+  transform: translateY(-1px);
+}
+
 .statusDot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: var(--matrix-glow);
-  box-shadow: 0 0 14px rgba(34, 255, 136, 0.7);
+  box-shadow: var(--theme-statusdot-shadow);
   animation: blink 2s ease-in-out infinite;
 }
 
@@ -133,7 +160,7 @@
   border-radius: 20px;
   padding: 24px;
   min-height: 520px;
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--theme-panel-shadow);
 }
 
 .chatList {
@@ -157,16 +184,16 @@
 
 .assistantMessage {
   align-self: flex-start;
-  background: rgba(8, 20, 13, 0.92);
-  border-color: rgba(34, 255, 136, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  background: var(--theme-msg-assistant-bg);
+  border-color: var(--theme-msg-assistant-border);
+  box-shadow: var(--theme-msg-assistant-shadow);
 }
 
 .userMessage {
   align-self: flex-end;
-  background: rgba(6, 31, 19, 0.95);
-  border-color: rgba(122, 255, 196, 0.2);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+  background: var(--theme-msg-user-bg);
+  border-color: var(--theme-msg-user-border);
+  box-shadow: var(--theme-msg-user-shadow);
 }
 
 .assistantMessage p,
@@ -188,8 +215,8 @@
   gap: 16px;
   border-radius: 16px;
   padding: 12px 16px;
-  border: 1px solid rgba(34, 255, 136, 0.2);
-  background: rgba(5, 12, 9, 0.85);
+  border: 1px solid var(--theme-input-border);
+  background: var(--theme-input-bg);
 }
 
 .inputBar textarea {
@@ -208,16 +235,16 @@
 }
 
 .inputBar button {
-  background: linear-gradient(135deg, rgba(34, 255, 136, 0.7), rgba(9, 159, 93, 0.95));
+  background: var(--theme-btn-bg);
   border: none;
-  color: #02140a;
+  color: var(--theme-btn-text);
   padding: 10px 20px;
   border-radius: 999px;
   font-family: var(--font-matrix-mono), "Share Tech Mono", monospace;
   font-size: 14px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--theme-btn-shadow);
 }
 
 .inputBar button:disabled {
@@ -228,16 +255,16 @@
 
 .inputBar button:not(:disabled):hover {
   transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 12px 30px rgba(34, 255, 136, 0.2);
+  box-shadow: var(--theme-btn-hover-shadow);
 }
 
 .correctionPanel {
-  background: linear-gradient(160deg, rgba(6, 22, 14, 0.92), rgba(2, 8, 5, 0.98));
+  background: var(--theme-correction-bg);
   border-radius: 20px;
   padding: 24px;
-  border: 1px solid rgba(34, 255, 136, 0.18);
+  border: 1px solid var(--theme-correction-border);
   min-height: 320px;
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--theme-correction-shadow);
   display: flex;
   flex-direction: column;
   gap: 16px;

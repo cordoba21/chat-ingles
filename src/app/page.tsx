@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTheme } from "./providers/ThemeProvider";
 import styles from "./page.module.css";
 
 type ChatMessage = {
@@ -26,6 +27,7 @@ const starterMessages: ChatMessage[] = [
 ];
 
 export default function Home() {
+  const { theme, setTheme } = useTheme();
   const [messages, setMessages] = useState<ChatMessage[]>(starterMessages);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -134,6 +136,29 @@ export default function Home() {
             <h1>English chat with smart corrections</h1>
           </div>
           <div className={styles.controls}>
+            <div className={styles.themeToggle}>
+              <button
+                type="button"
+                className={`${styles.themeBtn} ${theme === "light" ? styles.themeBtnActive : ""}`}
+                onClick={() => setTheme("light")}
+              >
+                Claro
+              </button>
+              <button
+                type="button"
+                className={`${styles.themeBtn} ${theme === "dark" ? styles.themeBtnActive : ""}`}
+                onClick={() => setTheme("dark")}
+              >
+                Oscuro
+              </button>
+              <button
+                type="button"
+                className={`${styles.themeBtn} ${theme === "cyberpunk" ? styles.themeBtnActive : ""}`}
+                onClick={() => setTheme("cyberpunk")}
+              >
+                Cyber
+              </button>
+            </div>
             <button
               type="button"
               className={styles.restartButton}
