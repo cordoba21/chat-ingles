@@ -142,14 +142,14 @@ export default function Home() {
                 className={`${styles.themeBtn} ${theme === "light" ? styles.themeBtnActive : ""}`}
                 onClick={() => setTheme("light")}
               >
-                Claro
+                White
               </button>
               <button
                 type="button"
                 className={`${styles.themeBtn} ${theme === "dark" ? styles.themeBtnActive : ""}`}
                 onClick={() => setTheme("dark")}
               >
-                Oscuro
+                Dark
               </button>
               <button
                 type="button"
